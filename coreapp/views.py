@@ -1,5 +1,4 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework.views import APIView 
 from coreapp.models import *
 from django.http import JsonResponse
 
@@ -9,7 +8,7 @@ class ProductAPIView(APIView):
         # requested products and quantity
         req_objs = {key: int(value)  for key, value in request.GET.items()}
         result = []
-        # 
+        # saving remaining data in next loop
         remaining_data = {}
         # loop for each requested object
         for pro_name, pro_qty in  req_objs.items():
