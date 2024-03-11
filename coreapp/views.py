@@ -12,11 +12,11 @@ class ProductAPIView(APIView):
         # 
         remaining_data = {}
         # loop for each requested object
-        for index in range(len(req_objs)):
-            product = Products.objects.get(product_name=list(req_objs.keys())[index])
+        for pro_name, pro_qty in  req_objs.items():
+            product = Products.objects.get(product_name=pro_name)
             product_materials = ProductMaterials.objects.filter(product_id=product.id)
             # product's all requested materials
-            req_obj_mats = {prod_mat.material_id.id: prod_mat.quantity*list(req_objs.values())[index] for prod_mat in product_materials}
+            req_obj_mats = {prod_mat.material_id.id: prod_mat.quantity*pro_qty for prod_mat in product_materials}
             obj_data = []
             # loop for each product material
             for mat_id in req_obj_mats.keys():
@@ -72,8 +72,8 @@ class ProductAPIView(APIView):
                                 })
                         remaining_data.update({warehouse.id: 0})            
             result.append({
-                            'product_name': list(req_objs.keys())[index],
-                            'product_qty': list(req_objs.values())[index],
+                            'product_name': pro_name,
+                            'product_qty': pro_qty,
                             'product_materials': obj_data
                         })
         response_data={"result": result}
